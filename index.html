@@ -7,9 +7,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Community Card Showcase</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="Hall of Fame (1).png">
 </head>
 
 <body>
+       <div class="circle-container">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+      </div>
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const coords = { x: 0, y: 0 };
+          const circles = document.querySelectorAll(".circle");
+
+          circles.forEach(function (circle) {
+            circle.x = 0;
+            circle.y = 0;
+          });
+
+          window.addEventListener("mousemove", function (e) {
+            coords.x = e.pageX;
+            coords.y = e.pageY - window.scrollY; // Adjust for vertical scroll position
+          });
+
+          function animateCircles() {
+            let x = coords.x;
+            let y = coords.y; 
+            circles.forEach(function (circle, index) {
+              circle.style.left = `${x - 12}px`;
+              circle.style.top = `${y - 12}px`;
+              circle.style.transform = `scale(${(circles.length - index) / circles.length})`;
+              const nextCircle = circles[index + 1] || circles[0];
+              circle.x = x;
+              circle.y = y;
+                            x += (nextCircle.x - x) * 0.3;
+              y += (nextCircle.y - y) * 0.3;
+            });
+
+            requestAnimationFrame(animateCircles);
+          }
+
+          animateCircles();
+        });
+
+      </script>
+
 
     <!-- NAVBAR START -->
     <nav class="navbar">
@@ -33,6 +103,25 @@
     </nav>
 
 <!-- NAVBAR END -->
+ <!-- 🔢 CONTRIBUTOR STATS -->
+<section class="stats-container">
+    <div class="stat-card">
+        <span id="totalCount">0</span>
+        <p>Total Members</p>
+    </div>
+    <div class="stat-card">
+        <span id="devCount">0</span>
+        <p>Developers</p>
+    </div>
+    <div class="stat-card">
+        <span id="contributorCount">0</span>
+        <p>Contributors</p>
+    </div>
+    <div class="stat-card">
+        <span id="maintainerCount">0</span>
+        <p>Maintainers</p>
+    </div>
+</section>
 
     <!-- Main heading of the website -->
 
@@ -66,7 +155,7 @@
             <p>"Hello world! This is my first PR."</p>
             <a href="https://github.com/19-mohityadav" class="card-btn" target="_blank">GitHub</a>
         </div>
-
+        
         <div class="card">
             <img src="images/Sameer-Baral.jpg" alt="Sameer's Photo" class="card-img">
             <h2>Sameer Baral</h2>
@@ -303,6 +392,23 @@
 </div>
 
       
+        <div class="card">
+            <img src="images/Bhavy-doe.jpeg" alt="Bhavy gupta Photo" class="card-img">
+            <h2>Bhavy Gupta</h2>
+            <span class="role">Open Source Contributor</span>
+            <p>"Hello! This is my first PR.Happy to connect with U all..."</p>
+            <a href="https://github.com/BhavyGupta12911" class="card-btn" target="_blank">view my GitHub Profile Here!</a>
+        </div>
+
+        <div class="card">
+            <img src="images/Vrishti-vibes.jpg" alt="Vrishti Kumari" class="card-img">
+            <h2>Vrishti Kumari</h2>
+            <span class="role">Frontend Developer</span>
+            <p>"Learning open source one PR at a time 🚀"</p>
+            <a href="https://github.com/Vrishti-vibes" class="card-btn" target="_blank">GitHub</a>
+        </div>
+
+      
       
       <!-- ADD YOUR NEW CARD ABOVE THIS COMMENT -->
 
@@ -465,6 +571,46 @@ toggleBtn.addEventListener("click", () => {
         localStorage.setItem("theme", "dark");
     }
 });
+</script>
+<script>
+function animateValue(element, start, end, duration) {
+    let startTimestamp = null;
+
+    function step(timestamp) {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        element.innerText = Math.floor(progress * (end - start) + start);
+        if (progress < 1) {
+            window.requestAnimationFrame(step);
+        }
+    }
+
+    window.requestAnimationFrame(step);
+}
+
+function updateContributorStats() {
+    const cards = document.querySelectorAll(".card");
+
+    let total = cards.length;
+    let dev = 0;
+    let contributor = 0;
+    let maintainer = 0;
+
+    cards.forEach(card => {
+        const role = card.querySelector(".role")?.innerText.toLowerCase();
+
+        if (role.includes("developer")) dev++;
+        else if (role.includes("maintainer")) maintainer++;
+        else contributor++;
+    });
+
+    animateValue(document.getElementById("totalCount"), 0, total, 800);
+    animateValue(document.getElementById("devCount"), 0, dev, 800);
+    animateValue(document.getElementById("contributorCount"), 0, contributor, 800);
+    animateValue(document.getElementById("maintainerCount"), 0, maintainer, 800);
+}
+
+document.addEventListener("DOMContentLoaded", updateContributorStats);
 </script>
 
 
